@@ -56,34 +56,39 @@ Here is a visual overview of the Quantum Smart Parking Simulation in action:
 Follow these steps to set up the quantum simulation environment on your local machine.
 
 **1. Clone the repository**
-```bash
+
 git clone [https://github.com/PanabakaMahesh/Quantum-Smart-Parking-Simulation.git](https://github.com/PanabakaMahesh/Quantum-Smart-Parking-Simulation.git)
 cd Quantum-Smart-Parking-Simulation
 
-2. Create a virtual environment
+**2. Create a virtual environment**
+```bash
 
-Bash
 python3 -m venv venv
+```
 
-3. Activate the virtual environment
-
+**3. Activate the virtual environment**
 For Linux/macOS:
+```bash
 
-Bash
 source venv/bin/activate
+```
+
 For Windows:
+```bash
 
-DOS
 venv\Scripts\activate
+```
 
-4. Upgrade PIP & Install Dependencies
+**4. Upgrade PIP & Install Dependencies**
+```Bash
 
-Bash
 pip install --upgrade pip
 pip install -r requirements.txt
+```
 
-5. Run the Application
+**5. Run the Application**
+```Bash
 
-Bash
 python main.py
+```
 (Once running, open your web browser and navigate to http://127.0.0.1:5000)
