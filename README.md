@@ -56,9 +56,10 @@ Here is a visual overview of the Quantum Smart Parking Simulation in action:
 Follow these steps to set up the quantum simulation environment on your local machine.
 
 **1. Clone the repository**
-
+```bash
 git clone [https://github.com/PanabakaMahesh/Quantum-Smart-Parking-Simulation.git](https://github.com/PanabakaMahesh/Quantum-Smart-Parking-Simulation.git)
 cd Quantum-Smart-Parking-Simulation
+```
 
 **2. Create a virtual environment**
 ```bash
