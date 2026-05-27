@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum vs Classical Performance Report</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .split-view { display: flex; justify-content: space-around; margin-top: 20px; gap: 20px; }
+        .divider { width: 2px; background: rgba(255,255,255,0.1); min-height: 400px; }
+        .glass-card { 
+            width: 48%; padding: 25px; background: rgba(30, 41, 59, 0.7); 
+            backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px;
+        }
+        .control-panel {
+            width: 95%; margin: 20px auto; padding: 20px;
+            display: flex; justify-content: center; align-items: center; gap: 30px;
+        }
+        .input-group { display: flex; flex-direction: column; align-items: center; }
+        input[type="number"] { padding: 10px; border-radius: 8px; border: 1px solid #3498db; background: #1e293b; color: white; width: 100px; text-align: center; font-size: 1.1rem; }
+        button { padding: 12px 25px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1.1rem; transition: 0.3s; }
+        .btn-run { background: #3498db; color: white; box-shadow: 0 0 15px rgba(52, 152, 219, 0.4); }
+        .btn-run:hover { background: #2980b9; }
+        .btn-reset { background: #e74c3c; color: white; box-shadow: 0 0 15px rgba(231, 76, 60, 0.4); }
+        .btn-reset:hover { background: #c0392b; }
+        .report-card { width: 95%; margin: 30px auto; padding: 25px; background: #0f172a; border-radius: 15px; border: 1px solid #1e293b; }
+        .comparison-table { width: 100%; border-collapse: collapse; margin-top: 20px; color: #cbd5e1; font-size: 1rem; }
+        .comparison-table th, .comparison-table td { padding: 15px; border-bottom: 1px solid #1e293b; text-align: center; }
+        .comparison-table th { background: #1e293b; color: #3498db; text-transform: uppercase; letter-spacing: 1px; }
+        #verdict { text-align: center; margin-top: 25px; font-weight: bold; font-size: 1.2rem; padding: 15px; border-radius: 10px; }
+        .highlight { color: #3498db; font-weight: bold; }
+        .parking-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>🚀 Quantum vs Classical Smart City Monitor</h1>
+
+    <div class="glass-card control-panel">
+        <div class="input-group">
+            <label style="margin-bottom: 8px; color: #a855f7; font-weight: bold;">Quantum Fleet (Max 4)</label>
+            <input type="number" id="q-input" min="1" max="4" value="4">
+        </div>
+        <div class="input-group">
+            <label style="margin-bottom: 8px; color: #eab308; font-weight: bold;">Classical Fleet (Max 7)</label>
+            <input type="number" id="c-input" min="1" max="7" value="7">
+        </div>
+        <button class="btn-run" onclick="runAllocation()">⚙️ RUN ALLOCATION</button>
+        <button class="btn-reset" onclick="location.reload()">🔄 SHUFFLE CITY</button>
+    </div>
+
+    <div class="split-view">
+        <div class="glass-card">
+            <h2 style="color: #a855f7;">⚛️ Quantum Engine (Sector 1: 5 Slots)</h2>
+            <div id="quantum-lot" class="parking-grid"></div>
+        </div>
+        <div class="divider"></div>
+        <div class="glass-card">
+            <h2 style="color: #eab308;">💻 Classical Engine (Full Grid: 10 Slots)</h2>
+            <div id="classical-lot" class="parking-grid"></div>
+        </div>
+    </div>
+
+    <div class="report-card">
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Performance Metric</th>
+                    <th>Quantum Solver (Exact)</th>
+                    <th>Classical Greedy Solver</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Total Fleet Distance</strong></td>
+                    <td><span id="q-total">0</span>m</td>
+                    <td><span id="c-total">0</span>m</td>
+                </tr>
+                <tr>
+                    <td><strong>Average Distance (Per Vehicle)</strong></td>
+                    <td><span class="highlight" id="q-avg">0</span>m</td>
+                    <td><span class="highlight" id="c-avg">0</span>m</td>
+                </tr>
+                <tr>
+                    <td><strong>Decision Latency</strong></td>
+                    <td><span id="q-speed">0</span> ms</td>
+                    <td><span id="c-speed">0</span> ms</td>
+                </tr>
+                <tr>
+                    <td><strong>Decision Variables (Qubits)</strong></td>
+                    <td><span id="qubit-count">0</span> Qubits</td>
+                    <td>O(N) Complexity</td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="verdict">Awaiting User Input...</div>
+    </div>
+
+    <script>
+        function updateLot(id, slots, allocs) {
+            const grid = document.getElementById(id);
+            grid.innerHTML = '';
+            slots.forEach(slot => {
+                const div = document.createElement('div');
+                let vId = Object.keys(allocs).find(key => allocs[key] === slot.slot_id);
+                
+                div.className = 'slot ' + (slot.availability === 1 ? 'free' : 'occupied');
+                if (vId) div.classList.add('assigned');
+
+                div.innerHTML = vId ? `<div class="car">${vId}</div>` : '';
+                div.innerHTML += `<span>${slot.slot_id}</span><br><small>${slot.distance}m</small>`;
+                grid.appendChild(div);
+            });
+        }
+
+        async function fetchLotData(q_count, c_count) {
+            document.getElementById('verdict').innerHTML = "Calculating optimal routes...";
+            document.getElementById('verdict').style.color = "#fff";
+            
+            try {
+                // Pass the user's input directly to the Python backend
+                const res = await fetch(`/get_data?q_veh=${q_count}&c_veh=${c_count}`);
+                const data = await res.json();
+                
+                updateLot('quantum-lot', data.slots.slice(0, 5), data.quantum);
+                updateLot('classical-lot', data.slots, data.classical);
+                
+                document.getElementById('q-total').innerText = data.q_total;
+                document.getElementById('c-total').innerText = data.c_total;
+                document.getElementById('q-avg').innerText = data.q_avg;
+                document.getElementById('c-avg').innerText = data.c_avg;
+                document.getElementById('q-speed').innerText = data.q_speed;
+                document.getElementById('c-speed').innerText = data.c_speed;
+                document.getElementById('qubit-count').innerText = data.qubits;
+
+                if (q_count > 0 && c_count > 0) {
+                    const diff = (data.c_avg - data.q_avg).toFixed(2);
+                    const v = document.getElementById('verdict');
+                    if (diff > 0) {
+                        v.innerHTML = `⭐ <strong>QUANTUM ADVANTAGE:</strong> Global Opt saved an average of ${diff}m per vehicle!`;
+                        v.style.color = "#2ecc71";
+                    } else {
+                        v.innerHTML = "SYSTEM LOG: Classical found a similar average due to layout constraints.";
+                        v.style.color = "#e74c3c";
+                    }
+                } else {
+                    document.getElementById('verdict').innerHTML = "Ready for Simulation.";
+                }
+            } catch(e) { console.error("API Error:", e); }
+        }
+
+        function runAllocation() {
+            // Get inputs and enforce limits before sending to Python
+            let q_veh = parseInt(document.getElementById('q-input').value) || 0;
+            let c_veh = parseInt(document.getElementById('c-input').value) || 0;
+            if(q_veh > 4) { q_veh = 4; document.getElementById('q-input').value = 4; }
+            if(c_veh > 7) { c_veh = 7; document.getElementById('c-input').value = 7; }
+            
+            fetchLotData(q_veh, c_veh);
+        }
+
+        // On initial page load, display the empty scrambled city (0 vehicles)
+        window.onload = () => { fetchLotData(0, 0); };
+    </script>
+</body>
+</html>

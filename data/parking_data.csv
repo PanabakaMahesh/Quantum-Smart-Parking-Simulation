@@ -1,0 +1,11 @@
+slot_id,distance,availability,zone
+S1,100,0,A
+S2,15,0,A
+S3,115,1,B
+S4,25,0,B
+S5,110,1,C
+S6,10,1,C
+S7,30,0,D
+S8,75,0,D
+S9,120,1,E
+S10,105,1,E

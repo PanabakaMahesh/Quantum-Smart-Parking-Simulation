@@ -1,0 +1,12 @@
+body { background: #0f172a; color: #f8fafc; font-family: 'Segoe UI', sans-serif; text-align: center; padding: 20px; }
+h1 { color: #3498db; margin-bottom: 30px; text-transform: uppercase; letter-spacing: 2px; }
+.slot {
+    width: 65px; height: 95px; border-radius: 12px;
+    display: flex; flex-direction: column; justify-content: center;
+    border: 2px solid #1e293b; transition: all 0.4s ease;
+    background: rgba(30, 41, 59, 0.5); font-size: 0.7rem;
+}
+.slot.free { border-color: #2ecc71; box-shadow: 0 0 10px rgba(46, 204, 113, 0.2); }
+.slot.occupied { border-color: #e74c3c; opacity: 0.6; }
+.slot.assigned { border-color: #3498db; background: rgba(52, 152, 219, 0.2); box-shadow: 0 0 15px #3498db; transform: scale(1.05); }
+.car { background: #3498db; color: white; padding: 3px; border-radius: 4px; font-weight: bold; margin-bottom: 5px; font-size: 0.8rem; }
