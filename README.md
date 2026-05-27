@@ -2,8 +2,6 @@
 
 [![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/)
 [![Qiskit](https://img.shields.io/badge/Qiskit-Quantum%20Computing-6045ba.svg)](https://qiskit.org/)
-[![Flask](https://img.shields.io/badge/Flask-Web%20Framework-000000.svg)](https://flask.palletsprojects.com/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A **Quantum-Classical Hybrid System** designed to solve urban parking congestion using advanced mathematical optimization. This project models the smart city parking allocation problem as a **Quadratic Unconstrained Binary Optimization (QUBO)** task and solves it using a Quantum Minimum Eigensolver.
 
