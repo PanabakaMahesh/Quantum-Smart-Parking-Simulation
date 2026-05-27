@@ -21,6 +21,8 @@ It features a live, interactive dashboard that compares the efficiency of a **Qu
 
 ## 📸 Output & Screenshots
 
+Here is a visual overview of the Quantum Smart Parking Simulation in action:
+
 ### 1. Interactive Control Room Dashboard
 *(Displays the split-view comparison between the Quantum Sector and the Full Classical Grid)*
 ![Interactive Dashboard](assets/Screenshot_1.png)
@@ -32,6 +34,18 @@ It features a live, interactive dashboard that compares the efficiency of a **Qu
 ### 3. Simulator & Solver Terminal Logs
 *(Demonstrates the background traffic simulator and the exact Quantum Solver hardware checks)*
 ![Terminal Logs](assets/Screenshot_3.png)
+
+### 4. Dynamic Fleet Configuration
+*(Interactive inputs allowing users to adjust vehicle counts and simulate various traffic conditions)*
+![Fleet Configuration](assets/Screenshot_4.png)
+
+### 5. Quantum Advantage Verdict
+*(Real-time verdict highlighting the efficiency savings achieved by the Global Optimizer over the Greedy approach)*
+![Quantum Advantage](assets/Screenshot_5.png)
+
+### 6. Live City Shuffling
+*(Demonstrates the 'Shuffle City' feature, simulating real-world dynamic road closures and changing distances)*
+![City Shuffle](assets/Screenshot_6.png)
 
 > **Note:** To see the UI in action, clone the repository and run the simulation locally!
 
@@ -47,22 +61,27 @@ git clone [https://github.com/PanabakaMahesh/Quantum-Smart-Parking-Simulation.gi
 cd Quantum-Smart-Parking-Simulation
 
 **2. Create a virtual environment**
-
+```bash
 python3 -m venv venv
 
 **3. Activate the virtual environment**
+```bash
 
 For Linux/macOS:
 source venv/bin/activate
 
 For Windows:
+DOS
 venv\Scripts\activate
 
 **4. Upgrade PIP &** **Install Dependencies**
+```bash
 
 pip install --upgrade pip
 pip install -r requirements.txt
 
 **5. Run the Application**
+```bash
 
 python main.py
+(Once running, open your web browser and navigate to http://127.0.0.1:5000)
